@@ -24,6 +24,8 @@ function formatNumber(num) {
 
 //Firebase events.
 var messages = firebase.database().ref("chat");
+var messageArray = [];
+var vue = null;
 
 firebase.auth().onAuthStateChanged(function(user) {
     if(user) {
@@ -39,54 +41,16 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         messages.on("value", function(data) {
             var msgs = data.val();
-        
             var chatMessages = document.getElementById("chatMessages");
-            while(chatMessages.firstChild) {
-                chatMessages.removeChild(chatMessages.firstChild);
-            }
-        
+            
+            messageArray.splice(0, messageArray.length);
+
             for(var key in msgs) {
                 var message = msgs[key];
-                
-                var msgElement = document.createElement("div");
-                var headerElement = document.createElement("p");
-                var messageElement = document.createElement("p");
-        
-                headerElement.innerText = "[" + formatDate(new Date(message.timestamp)) + "] " + message.name;
-                headerElement.style.cssText = "font-weight: bold;";
-        
-                messageElement.innerText = message.message;
-        
-                msgElement.className = "chatMessage";
-        
-                msgElement.appendChild(headerElement);
-                msgElement.appendChild(messageElement);
-
-                if(message.uid === undefined || message.uid === null || message.uid === user.uid) {
-                    //Edit button.
-                    var editButton = document.createElement("button");
-
-                    editButton.id = key;
-                    editButton.innerText = "edit";
-                    editButton.className = "editButton";
-                    editButton.addEventListener("click", editMessage);
-
-                    msgElement.appendChild(editButton);
-                    
-                    //Delete button.
-                    var deleteButton = document.createElement("button");
-
-                    deleteButton.id = key;
-                    deleteButton.innerText = "x";
-                    deleteButton.className = "deleteButton";
-                    deleteButton.addEventListener("click", deleteMessage);
-
-                    msgElement.appendChild(deleteButton);
-                }
-
-                chatMessages.appendChild(msgElement);
+                message.key = key;
+                messageArray.push(message);
             }
-        
+            
             if(chatMessages.children.length > 0) {
                 chatMessages.children[chatMessages.children.length - 1].scrollIntoView();
             }
@@ -109,6 +73,16 @@ window.addEventListener("DOMContentLoaded", documentLoaded);
 function documentLoaded() {
     document.getElementById("chatForm").addEventListener("submit", onSubmit);
     document.getElementById("loginForm").addEventListener("submit", onLoginSubmit);
+
+    vue = new Vue({
+        el: "#chatMessages",
+        data: {
+            messages: messageArray
+        },
+        methods: {
+
+        }
+    });
 }
 
 function onSubmit(event) {
@@ -165,10 +139,10 @@ function logout() {
         });
 }
 
-function deleteMessage() {
-    firebase.database().ref("chat").child(this.id).remove();
+function deleteMessage(event) {
+    firebase.database().ref("chat").child(event.currentTarget.id).remove();
 }
 
 function editMessage() {
-    
+
 }

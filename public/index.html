@@ -32,7 +32,15 @@
                 </form>
             </div>
 
-            <div id="chatMessages" class="chat chatMessages"></div>
+            <div id="chatMessages" class="chat chatMessages">
+                <div v-for="message in messages" class="chatMessage">
+                    <p style="font-weight: bold">{{ message.timestamp }} {{ message.name }}</p>
+                    <p>{{ message.message }}</p>
+                    <button class="editButton" :id="message.key" @click="deleteMessage($event)">edit</button>
+                    <button class="deleteButton" :id="message.key" @click="editMessage($event)">x</button>
+                </div>
+            </div>
+
             <div id="chatBlock" class="chat chatForm">
                 <form action="" method="post" id="chatForm">
                     <p><input id="chatName" type="text" placeholder="Your name" maxlength="64" required/></p>
