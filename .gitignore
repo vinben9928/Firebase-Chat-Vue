@@ -1,0 +1,6 @@
+public/scripts/fbinit.js
+.firebaserc
+.firebase
+database.rules.json
+firebase.json
+storage.rules

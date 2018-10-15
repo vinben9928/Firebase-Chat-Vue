@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Firebase Chat</title>
+
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+        <script type="text/javascript" src="scripts/fbinit.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+        <script type="text/javascript" src="scripts/main.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    </head>
+    <body>
+        <header>
+            <h2>Firebase Chat</h2>
+            <a href="javascript:void(0)" id="googleLoginLink" onclick="loginWithGoogle()">Login using Google</a>
+            <a href="javascript:void(0)" id="loginLink" onclick="login()">Login</a>
+            <a href="javascript:void(0)" id="logoutLink" onclick="logout()">Logout</a>
+        </header>
+        <main>
+            <div id="loginNotice" class="chat">
+                <h1 style="display: table-cell; vertical-align: middle;">You must be logged in to view this page!</h1>
+            </div>
+
+            <div id="loginBlock" class="chat">
+                <form action="" method="POST" id="loginForm">
+                    <input type="email" id="email" placeholder="E-mail"/>
+                    <input type="password" id="password" placeholder="Password"/>
+                    <input type="hidden" id="uid"/>
+                    <input type="submit" value="Login"/>
+                </form>
+            </div>
+
+            <div id="chatMessages" class="chat chatMessages"></div>
+            <div id="chatBlock" class="chat chatForm">
+                <form action="" method="post" id="chatForm">
+                    <p><input id="chatName" type="text" placeholder="Your name" maxlength="64" required/></p>
+                    <p><textarea id="chatMessage" placeholder="Message" maxlength="200" required></textarea></p>
+                    <p><input type="submit" value="Send message"/></p>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <h4>End of page</h4>
+        </footer>
+    </body>
+</html>
