@@ -48,6 +48,8 @@ firebase.auth().onAuthStateChanged(function(user) {
             for(var key in msgs) {
                 var message = msgs[key];
                 message.key = key;
+                message.timestamp = formatDate(new Date(message.timestamp));
+                message.canModify = message.uid === undefined || message.uid === null || message.uid === user.uid;
                 messageArray.push(message);
             }
             

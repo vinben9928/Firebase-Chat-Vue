@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Firebase Chat</title>
+        <title>Firebase Chat (with Vue)</title>
 
         <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
@@ -34,10 +34,10 @@
 
             <div id="chatMessages" class="chat chatMessages">
                 <div v-for="message in messages" class="chatMessage">
-                    <p style="font-weight: bold">{{ message.timestamp }} {{ message.name }}</p>
+                    <p style="font-weight: bold">[{{ message.timestamp }}] {{ message.name }}</p>
                     <p>{{ message.message }}</p>
-                    <button class="editButton" :id="message.key" @click="deleteMessage($event)">edit</button>
-                    <button class="deleteButton" :id="message.key" @click="editMessage($event)">x</button>
+                    <button class="editButton" :id="message.key" @click="editMessage($event)" v-if="message.canModify">edit</button>
+                    <button class="deleteButton" :id="message.key" @click="deleteMessage($event)" v-if="message.canModify">x</button>
                 </div>
             </div>
 
